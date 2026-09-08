@@ -229,6 +229,58 @@
       text-align: right;
     }
 
+    .qr-card {
+      margin-top: 18px;
+      background: var(--bg-card);
+      border: 0.5px solid rgba(227, 178, 60, 0.25);
+      border-radius: 14px;
+      padding: 24px 26px 26px;
+      text-align: center;
+    }
+
+    .qr-label {
+      font-size: 14px;
+      color: var(--muted);
+      margin: 0 0 16px;
+    }
+
+    .qr-box {
+      display: inline-flex;
+      background: #ffffff;
+      padding: 12px;
+      border-radius: 10px;
+      line-height: 0;
+    }
+
+    .qr-box img {
+      display: block;
+      width: 150px;
+      height: 150px;
+    }
+
+    .qr-input-label {
+      display: block;
+      font-size: 12px;
+      color: var(--muted);
+      margin: 18px 0 6px;
+    }
+
+    .qr-input {
+      width: 100%;
+      background: rgba(247, 236, 224, 0.06);
+      border: 0.5px solid rgba(247, 236, 224, 0.2);
+      border-radius: 8px;
+      padding: 9px 12px;
+      font-size: 13px;
+      color: var(--cream);
+      font-family: 'Sarabun', sans-serif;
+      outline: none;
+    }
+
+    .qr-input:focus {
+      border-color: var(--gold-soft);
+    }
+
     .particles {
       position: fixed;
       inset: 0;
@@ -321,6 +373,16 @@
           <p>ขอให้ปีนี้เป็นปีที่มีความสุข สุขภาพแข็งแรง และเต็มไปด้วยเรื่องดีๆ รอเธออยู่ แล้วก็ขอให้มีฉันอยู่ข้างๆ เธอไปอีกนานๆ นะ</p>
           <div class="signature"> รักเธอเสมอ, </div>
         </div>
+
+        <div class="qr-card" id="qrCard">
+          <p class="qr-label">แสกนเพื่อเปิดหน้านี้อีกครั้งเมื่อไหร่ก็ได้</p>
+          <div class="qr-box">
+            <div id="qrImage"></div>
+          </div>
+          <label class="qr-input-label" for="qrUrl">ลิงก์ที่จะให้ QR พาไป</label>
+          <input type="text" id="qrUrl" class="qr-input" value="https://neko8646.github.io/HBD/birthday.html"
+            spellcheck="false">
+        </div>
       </div>
     </div>
   </div>
@@ -377,6 +439,23 @@
         }
       });
     });
+
+    const qrImage = document.getElementById('qrImage');
+    const qrUrlInput = document.getElementById('qrUrl');
+    let qrDebounce;
+
+    function renderQr(text) {
+      const safeText = (text || '').trim() || 'https://example.com';
+      const src = 'https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=' + encodeURIComponent(safeText);
+      qrImage.innerHTML = '<img src="' + src + '" alt="QR โค้ดสำหรับสแกนเปิดหน้านี้" width="150" height="150">';
+    }
+
+    qrUrlInput.addEventListener('input', function () {
+      clearTimeout(qrDebounce);
+      qrDebounce = setTimeout(() => renderQr(qrUrlInput.value), 400);
+    });
+
+    renderQr(qrUrlInput.value);
   </script>
 
 </body>
