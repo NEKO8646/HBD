@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>สุขสันต์วันเกิดที่รัก</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,600;1,500&family=Sarabun:wght@300;400;600&display=swap"
+    rel="stylesheet">
+  <style>
+    :root {
+      --bg-deep: #241220;
+      --bg-card: #2f1a29;
+      --gold: #e3b23c;
+      --gold-soft: #f0cf7a;
+      --rose: #e2879a;
+      --cream: #f7ece0;
+      --muted: #c7a9ab;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      margin: 0;
+      padding: 0;
+      min-height: 100%;
+      background: var(--bg-deep);
+      background-image:
+        radial-gradient(circle at 20% 15%, rgba(227, 178, 60, 0.08), transparent 40%),
+        radial-gradient(circle at 80% 85%, rgba(226, 135, 154, 0.10), transparent 45%);
+      color: var(--cream);
+      font-family: 'Sarabun', sans-serif;
+      font-weight: 300;
+    }
+
+    .page {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 20px 60px;
+    }
+
+    .scene {
+      width: 100%;
+      max-width: 480px;
+      text-align: center;
+    }
+
+    .eyebrow {
+      font-size: 13px;
+      letter-spacing: 0.04em;
+      color: var(--muted);
+      margin: 0 0 6px;
+    }
+
+    h1 {
+      font-family: 'Fraunces', serif;
+      font-weight: 600;
+      font-size: clamp(28px, 6vw, 38px);
+      line-height: 1.25;
+      margin: 0 0 6px;
+      color: var(--cream);
+    }
+
+    .name-field {
+      display: inline-block;
+      border-bottom: 1px dashed var(--gold);
+      padding: 0 4px 2px;
+      outline: none;
+      cursor: text;
+      min-width: 30px;
+    }
+
+    .name-field:focus {
+      border-bottom-color: var(--rose);
+    }
+
+    .subtext {
+      font-size: 15px;
+      color: var(--muted);
+      margin: 0 0 34px;
+      line-height: 1.6;
+    }
+
+    .cake-wrap {
+      position: relative;
+      width: 220px;
+      margin: 0 auto 18px;
+    }
+
+    .candles-hit {
+      background: none;
+      border: none;
+      padding: 0;
+      margin: 0;
+      cursor: pointer;
+      display: block;
+      width: 100%;
+    }
+
+    .candles-hit:focus-visible {
+      outline: 2px solid var(--gold-soft);
+      outline-offset: 4px;
+      border-radius: 8px;
+    }
+
+    .flame {
+      transform-origin: center bottom;
+      animation: flicker 1.6s ease-in-out infinite;
+    }
+
+    .flame:nth-child(2) {
+      animation-delay: 0.3s;
+    }
+
+    .flame:nth-child(3) {
+      animation-delay: 0.6s;
+    }
+
+    @keyframes flicker {
+
+      0%,
+      100% {
+        transform: scaleY(1) scaleX(1) rotate(0deg);
+        opacity: 1;
+      }
+
+      30% {
+        transform: scaleY(1.08) scaleX(0.95) rotate(-2deg);
+        opacity: 0.92;
+      }
+
+      60% {
+        transform: scaleY(0.94) scaleX(1.04) rotate(2deg);
+        opacity: 1;
+      }
+    }
+
+    .blown .flame {
+      opacity: 0;
+      transition: opacity 0.4s ease;
+    }
+
+    .blown .smoke {
+      opacity: 1;
+    }
+
+    .smoke {
+      opacity: 0;
+      transition: opacity 0.3s ease 0.2s;
+      animation: rise 2.2s ease-out infinite;
+    }
+
+    @keyframes rise {
+      0% {
+        transform: translateY(0);
+        opacity: 0.5;
+      }
+
+      100% {
+        transform: translateY(-18px);
+        opacity: 0;
+      }
+    }
+
+    .hint {
+      font-size: 13px;
+      color: var(--muted);
+      margin: 4px 0 0;
+      transition: opacity 0.4s ease;
+    }
+
+    .hint.hidden {
+      opacity: 0;
+      height: 0;
+      overflow: hidden;
+      margin: 0;
+    }
+
+    .letter {
+      max-width: 420px;
+      margin: 30px auto 0;
+      opacity: 0;
+      transform: translateY(14px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+      pointer-events: none;
+    }
+
+    .letter.show {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+
+    .letter-card {
+      background: var(--bg-card);
+      border: 0.5px solid rgba(227, 178, 60, 0.25);
+      border-radius: 14px;
+      padding: 28px 26px;
+      text-align: left;
+    }
+
+    .letter-card p {
+      font-size: 16px;
+      line-height: 1.85;
+      color: var(--cream);
+      margin: 0 0 16px;
+    }
+
+    .letter-card p:last-of-type {
+      margin-bottom: 0;
+    }
+
+    .signature {
+      margin-top: 20px;
+      padding-top: 16px;
+      border-top: 0.5px solid rgba(247, 236, 224, 0.15);
+      font-family: 'Fraunces', serif;
+      font-style: italic;
+      font-size: 17px;
+      color: var(--gold-soft);
+      text-align: right;
+    }
+
+    .particles {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: 5;
+    }
+
+    .heart-particle {
+      position: absolute;
+      bottom: -30px;
+      font-size: 20px;
+      color: var(--rose);
+      animation: floatUp linear forwards;
+    }
+
+    @keyframes floatUp {
+      0% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 0.95;
+      }
+
+      100% {
+        transform: translateY(-70vh) rotate(25deg);
+        opacity: 0;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+
+      .flame,
+      .smoke,
+      .heart-particle {
+        animation: none !important;
+      }
+
+      .letter {
+        transition: opacity 0.3s ease;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="page">
+    <div class="scene">
+      <h1>
+        สุขสันต์วันเกิดนะ
+        <span class="name-field" contenteditable="true" data-placeholder="ที่รัก">ที่รัก</span>
+      </h1>
+      <p class="subtext">แตะเทียนเพื่อเป่าและเปิดข้อความจากใจ</p>
+
+      <div class="cake-wrap">
+        <button class="candles-hit" id="candleBtn" aria-label="แตะเพื่อเป่าเทียนวันเกิดและเปิดข้อความ">
+          <svg viewBox="0 0 220 190" width="100%" role="img">
+            <title>เค้กวันเกิดพร้อมเทียนสามเล่ม</title>
+
+            <g class="flame">
+              <path d="M64 68 C 60 78, 68 84, 64 92 C 60 84, 56 78, 64 68 Z" fill="#f0cf7a" />
+              <ellipse class="smoke" cx="64" cy="60" rx="2.5" ry="6" fill="#8a8a90" />
+            </g>
+            <g class="flame">
+              <path d="M110 60 C 106 70, 114 76, 110 84 C 106 76, 102 70, 110 60 Z" fill="#f0cf7a" />
+              <ellipse class="smoke" cx="110" cy="52" rx="2.5" ry="6" fill="#8a8a90" />
+            </g>
+            <g class="flame">
+              <path d="M156 68 C 152 78, 160 84, 156 92 C 152 84, 148 78, 156 68 Z" fill="#f0cf7a" />
+              <ellipse class="smoke" cx="156" cy="60" rx="2.5" ry="6" fill="#8a8a90" />
+            </g>
+
+            <rect x="62" y="92" width="4" height="16" fill="#e8ded0" />
+            <rect x="108" y="84" width="4" height="16" fill="#e8ded0" />
+            <rect x="154" y="92" width="4" height="16" fill="#e8ded0" />
+
+            <rect x="30" y="108" width="160" height="42" rx="6" fill="#e2879a" />
+            <rect x="30" y="108" width="160" height="10" rx="5" fill="#f2b9c6" />
+
+            <rect x="18" y="150" width="184" height="34" rx="8" fill="#c96b81" />
+            <rect x="18" y="150" width="184" height="9" rx="4" fill="#e2879a" />
+          </svg>
+        </button>
+        <p class="hint" id="hint">แตะที่เทียนเลยนะ</p>
+      </div>
+
+      <div class="letter" id="letter">
+        <div class="letter-card">
+          <p>สุขสันต์วันเกิดนะครับที่รัก วันนี้คือวันที่โลกได้เธอมา และเป็นวันที่ทำให้ชีวิตของเค้าดีขึ้นทุกปี</p>
+          <p>ขอบคุณที่อยู่เคียงข้างกันเสมอ ทั้งวันธรรมดาและวันพิเศษ ขอบคุณที่ทำให้ทุกเรื่องเล็กๆ กลายเป็นความทรงจำที่ดี </p>
+          <p>ขอให้ปีนี้เป็นปีที่มีความสุข สุขภาพแข็งแรง และเต็มไปด้วยเรื่องดีๆ รอเธออยู่ แล้วก็ขอให้มีฉันอยู่ข้างๆ เธอไปอีกนานๆ นะ</p>
+          <div class="signature"> รักเธอเสมอ, </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="particles" id="particles"></div>
+
+  <script>
+    const candleBtn = document.getElementById('candleBtn');
+    const hint = document.getElementById('hint');
+    const letter = document.getElementById('letter');
+    const particles = document.getElementById('particles');
+    let blown = false;
+
+    function spawnHearts(count) {
+      const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (reduceMotion) return;
+      for (let i = 0; i < count; i++) {
+        setTimeout(() => {
+          const h = document.createElement('div');
+          h.className = 'heart-particle';
+          h.textContent = Math.random() > 0.5 ? '♥' : '♡';
+          h.style.left = (10 + Math.random() * 80) + 'vw';
+          h.style.fontSize = (14 + Math.random() * 14) + 'px';
+          h.style.animationDuration = (2.4 + Math.random() * 1.6) + 's';
+          particles.appendChild(h);
+          setTimeout(() => h.remove(), 4200);
+        }, i * 90);
+      }
+    }
+
+    function blowCandles() {
+      if (blown) return;
+      blown = true;
+      candleBtn.classList.add('blown');
+      hint.classList.add('hidden');
+      spawnHearts(16);
+      setTimeout(() => {
+        letter.classList.add('show');
+      }, 500);
+    }
+
+    candleBtn.addEventListener('click', blowCandles);
+    candleBtn.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        blowCandles();
+      }
+    });
+
+    document.querySelectorAll('.name-field').forEach(field => {
+      field.addEventListener('focus', function () {
+        if (this.textContent.trim() === this.dataset.placeholder) {
+          document.execCommand('selectAll', false, null);
+        }
+      });
+    });
+  </script>
+
+</body>
+
+</html>
